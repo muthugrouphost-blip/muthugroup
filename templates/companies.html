@@ -124,7 +124,24 @@
         <div class="company-section__body">
           <div class="grid-2" style="gap: 40px;">
             <div>
-              <div class="img-placeholder" style="min-height: 300px;">📦 Muthu Shri Chakra Facility</div>
+              <div class="company-slider-container">
+                <div class="company-slider" id="mscp-slider">
+                  <div class="company-slider__slides">
+                    <div class="company-slider__slide active">
+                      <img src="{{ url_for('static', filename='images/mscp_facility_1.jpg') }}" alt="Muthu Shri Chakra Packaging Facility - Printing Machine 1" class="company-slider__img" />
+                    </div>
+                    <div class="company-slider__slide">
+                      <img src="{{ url_for('static', filename='images/mscp_facility_2.png') }}" alt="Muthu Shri Chakra Packaging Facility - Printing Machine 2" class="company-slider__img" />
+                    </div>
+                  </div>
+                  <button class="company-slider__btn company-slider__btn--prev" aria-label="Previous image">&lsaquo;</button>
+                  <button class="company-slider__btn company-slider__btn--next" aria-label="Next image">&rsaquo;</button>
+                  <div class="company-slider__dots">
+                    <span class="company-slider__dot active" data-index="0"></span>
+                    <span class="company-slider__dot" data-index="1"></span>
+                  </div>
+                </div>
+              </div>
             </div>
             <div>
               <h3 style="color: var(--navy); margin-bottom: 14px;">About the Company</h3>

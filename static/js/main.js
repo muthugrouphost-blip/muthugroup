@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTabs();
   setActiveNav();
   initContactForm();
+  initCompanySlider();
 });
 
 // =============================================
@@ -191,4 +192,85 @@ function setActiveNav() {
       link.classList.add('active');
     }
   });
+}
+
+// =============================================
+// IMAGE SLIDER FOR COMPANIES (7s Auto-Slide & Manual)
+// =============================================
+function initCompanySlider() {
+  const slider = document.getElementById('mscp-slider');
+  if (!slider) return;
+
+  const slides = slider.querySelectorAll('.company-slider__slide');
+  const dots = slider.querySelectorAll('.company-slider__dot');
+  const prevBtn = slider.querySelector('.company-slider__btn--prev');
+  const nextBtn = slider.querySelector('.company-slider__btn--next');
+
+  let currentIndex = 0;
+  let slideInterval;
+  const intervalTime = 7000; // 7 seconds autoplay
+
+  function showSlide(index) {
+    if (index >= slides.length) {
+      currentIndex = 0;
+    } else if (index < 0) {
+      currentIndex = slides.length - 1;
+    } else {
+      currentIndex = index;
+    }
+
+    slides.forEach(slide => slide.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+
+    slides[currentIndex].classList.add('active');
+    dots[currentIndex].classList.add('active');
+  }
+
+  function nextSlide() {
+    showSlide(currentIndex + 1);
+  }
+
+  function prevSlide() {
+    showSlide(currentIndex - 1);
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    slideInterval = setInterval(nextSlide, intervalTime);
+  }
+
+  function stopAutoplay() {
+    if (slideInterval) {
+      clearInterval(slideInterval);
+    }
+  }
+
+  // Click handlers
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      prevSlide();
+      startAutoplay(); // Reset interval timer
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      nextSlide();
+      startAutoplay(); // Reset interval timer
+    });
+  }
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      showSlide(index);
+      startAutoplay(); // Reset interval timer
+    });
+  });
+
+  // Pause on hover
+  slider.addEventListener('mouseenter', stopAutoplay);
+  slider.addEventListener('mouseleave', startAutoplay);
+
+  // Initialize
+  startAutoplay();
 }
