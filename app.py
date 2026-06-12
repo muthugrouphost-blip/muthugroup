@@ -1,8 +1,6 @@
 import os
-import smtplib
 import traceback
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+import resend
 from flask import Flask, render_template, request, jsonify
 from dotenv import load_dotenv
 
@@ -12,10 +10,8 @@ load_dotenv()
 app = Flask(__name__)
 
 # --- Configuration ---
-SMTP_SERVER = os.environ.get("SMTP_SERVER", "smtp.gmail.com")
-SMTP_PORT = int(os.environ.get("SMTP_PORT", 587))
-SMTP_USERNAME = os.environ.get("SMTP_USERNAME")
-SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD")
+resend.api_key = os.environ.get("RESEND_API_KEY")
+RESEND_FROM_EMAIL = os.environ.get("RESEND_FROM_EMAIL", "onboarding@resend.dev")
 CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "info@muthugroups.com")
 
 
@@ -82,14 +78,8 @@ def contact():
         try:
 
             # ------------------------
-            # Create Email
+            # Create and Send Email via Resend
             # ------------------------
-            msg = MIMEMultipart()
-
-            msg['From'] = SMTP_USERNAME
-            msg['To'] = CONTACT_EMAIL
-            msg['Subject'] = f"New Contact Enquiry from {name} - {enquiry_type}"
-
             body = f"""
 New Contact Enquiry from Muthu Groups Website
 
@@ -103,36 +93,14 @@ Message:
 {message}
 """
 
-            msg.attach(MIMEText(body, 'plain'))
+            params = {
+                "from": RESEND_FROM_EMAIL,
+                "to": [CONTACT_EMAIL],
+                "subject": f"New Contact Enquiry from {name} - {enquiry_type}",
+                "text": body
+            }
 
-            # ------------------------
-            # SMTP Connection
-            # ------------------------
-            server = smtplib.SMTP(
-                SMTP_SERVER,
-                SMTP_PORT,
-                timeout=30
-            )
-
-            try:
-                server.ehlo()
-
-                # Secure TLS Connection
-                server.starttls()
-
-                server.ehlo()
-
-                # Login
-                server.login(
-                    SMTP_USERNAME,
-                    SMTP_PASSWORD
-                )
-
-                # Send Email
-                server.send_message(msg)
-
-            finally:
-                server.quit()
+            resend.Emails.send(params)
 
             return jsonify({
                 "success": True,
