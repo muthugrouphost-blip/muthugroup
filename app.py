@@ -1,4 +1,4 @@
-#testing
+#test
 import os
 import traceback
 import resend
