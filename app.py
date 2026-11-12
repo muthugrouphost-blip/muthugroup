@@ -1,7 +1,7 @@
 import os
 import traceback
 import resend
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -16,11 +16,20 @@ CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "info@muthugroups.com")
 
 
 # ------------------------
-# Health Check Route
+# Health Check & Favicon Routes
 # ------------------------
 @app.get("/healthz")
 def healthz():
     return jsonify({"status": "ok"}), 200
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(
+        os.path.join(app.root_path, 'static', 'images'),
+        'favicon.ico',
+        mimetype='image/vnd.microsoft.icon'
+    )
 
 
 # ------------------------
