@@ -7,6 +7,7 @@
   <meta name="description"
     content="Learn about Muthu Groups — our story, mission, vision, and the three companies that form our manufacturing group." />
   <title>About Us | Muthu Groups</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 
@@ -50,8 +51,9 @@
     <div class="container">
       <div class="grid-2 fade-in">
         <div>
-          <div class="img-placeholder img-placeholder--amber-frame" style="min-height: 380px;">🏭 Factory / Facility
-            Image</div>
+          <div style="position: relative; overflow: hidden; border-radius: var(--radius); border-left: 5px solid var(--amber); box-shadow: var(--card-shadow); height: 100%; min-height: 380px;">
+            <img src="{{ url_for('static', filename='images/mscp_facility_1.jpg') }}" alt="Muthu Groups Manufacturing Plant" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+          </div>
         </div>
         <div>
           <p
@@ -171,7 +173,7 @@
         <div>
           <p class="footer__heading">Contact</p>
           <div class="footer__contact">
-            <p><span class="icon">📍</span>No:71/1, poraiyoor, Villianur commune,Puducherry - 605110, India</p>
+            <p><span class="icon">📍</span>No: 71/1, Poraiyoor, Villianur Commune, Puducherry - 605110, India</p>
             <p><span class="icon">📞</span>+91 9443330167</p>
             <p><span class="icon">📧</span>info@muthugroups.com</p>
             <p><span class="icon">🕘</span>Mon – Sat, 9:00 AM – 6:00 PM</p>

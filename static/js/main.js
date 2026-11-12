@@ -53,8 +53,14 @@ function initContactForm() {
       body: json
     })
       .then(async (response) => {
-        let res = await response.json();
-        if (res.success) {
+        let res;
+        try {
+          res = await response.json();
+        } catch {
+          res = { success: false, message: "Server error. Please try again later." };
+        }
+
+        if (response.ok && res.success) {
           status.innerHTML = "Thank you! Your message has been sent successfully. ✨";
           status.classList.add('success');
           form.reset();
@@ -160,24 +166,55 @@ function initTabs() {
   const tabPanels = document.querySelectorAll('.tab-panel');
   if (!tabBtns.length) return;
 
+  function activateTab(targetId, shouldScroll = false) {
+    const btn = document.querySelector(`.tab-btn[data-tab="${targetId}"]`);
+    const panel = document.getElementById(targetId);
+    if (!btn || !panel) return;
+
+    tabBtns.forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    tabPanels.forEach(p => p.classList.remove('active'));
+
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    panel.classList.add('active');
+
+    // Re-trigger fade-in for newly visible elements
+    panel.querySelectorAll('.fade-in').forEach(el => {
+      el.classList.remove('visible');
+      setTimeout(() => el.classList.add('visible'), 50);
+    });
+
+    if (shouldScroll) {
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const target = btn.dataset.tab;
-
-      tabBtns.forEach(b => b.classList.remove('active'));
-      tabPanels.forEach(p => p.classList.remove('active'));
-
-      btn.classList.add('active');
-      const panel = document.getElementById(target);
-      if (panel) {
-        panel.classList.add('active');
-        // Re-trigger fade-in for newly visible elements
-        panel.querySelectorAll('.fade-in').forEach(el => {
-          el.classList.remove('visible');
-          setTimeout(() => el.classList.add('visible'), 50);
-        });
+      activateTab(target, false);
+      if (history.replaceState) {
+        history.replaceState(null, '', `#${target}`);
       }
     });
+  });
+
+  // Activate tab based on URL hash (e.g., #tab-mscp or #tab-mmf)
+  const initialHash = window.location.hash.replace('#', '');
+  if (initialHash) {
+    // Wait a brief moment for page rendering/scroll-positioning
+    setTimeout(() => activateTab(initialHash, true), 100);
+  }
+
+  // React to in-page hash changes
+  window.addEventListener('hashchange', () => {
+    const currentHash = window.location.hash.replace('#', '');
+    if (currentHash) {
+      activateTab(currentHash, true);
+    }
   });
 }
 

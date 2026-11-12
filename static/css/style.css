@@ -698,7 +698,10 @@ p {
   border-bottom-color: var(--amber);
 }
 
-.tab-panel { display: none; }
+.tab-panel { 
+  display: none; 
+  scroll-margin-top: calc(var(--nav-height) + 24px);
+}
 .tab-panel.active { display: block; }
 
 /* =============================================
@@ -709,6 +712,7 @@ p {
   overflow: hidden;
   box-shadow: var(--card-shadow);
   margin-bottom: 48px;
+  scroll-margin-top: calc(var(--nav-height) + 24px);
 }
 
 .company-section__banner {

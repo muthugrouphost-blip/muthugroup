@@ -7,6 +7,7 @@
   <meta name="description"
     content="Contact Muthu Groups — reach us for product enquiries, orders, or general information. We're based in Tamil Nadu, India." />
   <title>Contact Us | Muthu Groups</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <style>
     .company-addr-card {
@@ -106,7 +107,7 @@
             <div class="icon-circle">📍</div>
             <div class="info">
               <strong>Address</strong>
-              <p>No:71/1, poraiyoor, Villianur commune,Puducherry - 605110, India</p>
+              <p>No: 71/1, Poraiyoor, Villianur Commune, Puducherry - 605110, India</p>
             </div>
           </div>
 
@@ -150,6 +151,12 @@
           <form id="contact-form" action="{{ url_for('contact') }}" method="POST">
             <input type="hidden" name="subject" id="email-subject" value="Muthu Groups Contact Enquiry" />
             
+            <!-- Anti-spam Honeypot -->
+            <div style="display:none;" aria-hidden="true">
+              <label for="contact-website">Website</label>
+              <input type="text" id="contact-website" name="website" tabindex="-1" autocomplete="off" />
+            </div>
+
             <div class="form-group">
               <label for="full-name">Full Name</label>
               <input type="text" id="full-name" name="name" placeholder="Your full name" required />
@@ -192,7 +199,17 @@
             </button>
 
             <!-- Status Message -->
+            {% if form_success %}
+            <div id="form-status" class="form-status success" style="display: block;">
+              Thank you! Your message has been sent successfully. ✨
+            </div>
+            {% elif form_error %}
+            <div id="form-status" class="form-status error" style="display: block;">
+              {{ form_error }}
+            </div>
+            {% else %}
             <div id="form-status" class="form-status"></div>
+            {% endif %}
 
           </form>
         </div>
@@ -216,7 +233,7 @@
         <div class="company-addr-card">
           <div style="font-size: 1.8rem; margin-bottom: 12px;">🎞️</div>
           <h4>Muthu Food Films</h4>
-          <p><span class="ic">📍</span>No:71/1, poraiyoor, Villianur commune,Puducherry - 605110, India</p>
+          <p><span class="ic">📍</span>No: 71/1, Poraiyoor, Villianur Commune, Puducherry - 605110, India</p>
           <p><span class="ic">📞</span>+91 9443330167</p>
           <p><span class="ic">📧</span>info@muthugroups.com</p>
         </div>
@@ -224,7 +241,7 @@
         <div class="company-addr-card">
           <div style="font-size: 1.8rem; margin-bottom: 12px;">📦</div>
           <h4>Muthu Shri Chakra Packaging Pvt. Ltd.</h4>
-          <p><span class="ic">📍</span>No:71/1, poraiyoor, Villianur commune,Puducherry - 605110, India</p>
+          <p><span class="ic">📍</span>No: 71/1, Poraiyoor, Villianur Commune, Puducherry - 605110, India</p>
           <p><span class="ic">📞</span>+91 9443330167</p>
           <p><span class="ic">📧</span>info@muthugroups.com</p>
         </div>
@@ -232,15 +249,14 @@
         <div class="company-addr-card">
           <div style="font-size: 1.8rem; margin-bottom: 12px;">🔧</div>
           <h4>Muthu Multi Formation</h4>
-          <p><span class="ic">📍</span>No:71/1, poraiyoor, Villianur commune,Puducherry - 605110, India</p>
+          <p><span class="ic">📍</span>No: 71/1, Poraiyoor, Villianur Commune, Puducherry - 605110, India</p>
           <p><span class="ic">📞</span>+91 9443330167</p>
           <p><span class="ic">📧</span>info@muthugroups.com</p>
         </div>
 
       </div>
 
-      <p class="contact-section-note">All companies share a common facility address. Address details are placeholders —
-        to be updated.</p>
+      <p class="contact-section-note">All three group companies operate from our unified manufacturing facility.</p>
     </div>
   </section>
 
@@ -265,7 +281,7 @@
         <div>
           <p class="footer__heading">Contact</p>
           <div class="footer__contact">
-            <p><span class="icon">📍</span>No:71/1, poraiyoor, Villianur commune,Puducherry - 605110, India</p>
+            <p><span class="icon">📍</span>No: 71/1, Poraiyoor, Villianur Commune, Puducherry - 605110, India</p>
             <p><span class="icon">📞</span>+91 9443330167</p>
             <p><span class="icon">📧</span>info@muthugroups.com</p>
             <p><span class="icon">🕘</span>Mon – Sat, 9:00 AM – 6:00 PM</p>
