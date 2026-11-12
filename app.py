@@ -12,7 +12,7 @@ app = Flask(__name__)
 # --- Configuration ---
 resend.api_key = os.environ.get("RESEND_API_KEY")
 RESEND_FROM_EMAIL = os.environ.get("RESEND_FROM_EMAIL", "onboarding@resend.dev")
-CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "info@muthugroups.com")
+CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "muthugrouphost@gmail.com")
 
 
 # ------------------------
